@@ -60,9 +60,9 @@ int main(void)
 
 	/* Used Variables */
 	std::string str;
-	std::string user = "dbs311_211sa01";
-	std::string pass = "30041154";
-	std::string constr = "myoracle12c.senecacollege.ca:1521/oracle12c";
+	std::string user = "username";
+	std::string pass = "password";
+	std::string constr = "connection string";
 
 	int choice{0};				//user's choice in mainMenu() function
 	unsigned int customerID{0};		//holds the user input's value for customer ID

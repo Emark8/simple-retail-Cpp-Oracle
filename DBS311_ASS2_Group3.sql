@@ -1,7 +1,4 @@
 -- ****************************************************************
--- Student1 Name: Anthony Malcolm-DaCosta Student1 ID: 154528194 
--- Student2 Name: Cameron Mah             Student2 ID: 043070044 
--- Student3 Name: Mark Ian Anunciacion    Student3 ID: 053750147 
 -- Date: April 14, 2021
 -- Purpose: Assignment 2 - DBS311
 -- ****************************************************************

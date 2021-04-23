@@ -64,10 +64,10 @@ int main(void)
 	std::string pass = "30041154";
 	std::string constr = "myoracle12c.senecacollege.ca:1521/oracle12c";
 
-	int choice{0};						//user's choice in mainMenu() function
-	unsigned int customerID{0};			//holds the user input's value for customer ID
+	int choice{0};				//user's choice in mainMenu() function
+	unsigned int customerID{0};		//holds the user input's value for customer ID
 	unsigned int validCustomer{0};		//holds the returned value of customerLogin() function
-	int productCount{0};				//holds the returned value of addToCart() function
+	int productCount{0};			//holds the returned value of addToCart() function
 	ShoppingCart cartArr[cartSize];		//array with type struct ShoppingCart
 	
 	while (1)
@@ -159,15 +159,15 @@ int customerLogin(Connection* conn, int customerId)
 	int result{0};
 	try
 	{
-		Statement* stmt = conn->createStatement();			//create the statement object stmt
+		Statement* stmt = conn->createStatement();		//create the statement object stmt
 		stmt->setSQL("BEGIN find_customer(:1, :2); END;");	//call the stored procedure find_customer
-		stmt->setInt(1, customerId);						//pass first argument to procedure
-		stmt->setInt(2, result);							//pass second argument to procedure
-		stmt->executeUpdate();								//execute statement call
-		result = stmt->getInt(2);							//assign the value returned by the procedure to a variable
-		conn->terminateStatement(stmt);					    //deallocate the statement object stmt
+		stmt->setInt(1, customerId);				//pass first argument to procedure
+		stmt->setInt(2, result);				//pass second argument to procedure
+		stmt->executeUpdate();					//execute statement call
+		result = stmt->getInt(2);				//assign the value returned by the procedure to a variable
+		conn->terminateStatement(stmt);			   	//deallocate the statement object stmt
 
-		if(result) return result;							//if find_customer returns 1, return result back to the main program
+		if(result) return result;				//if find_customer returns 1, return result back to the main program
 	}
 	catch (SQLException& sqlExcp)
 	{
@@ -192,7 +192,7 @@ int addToCart(Connection* conn, struct ShoppingCart cart[])
 	for(int i = 0; i < cartSize; ++i)
 	{
 		getInput(prodID, "Enter the product ID: ");	//send user input for validation
-		result = findProduct(conn, prodID);				//call and assign the return value of findProduct function to result variable
+		result = findProduct(conn, prodID);		//call and assign the return value of findProduct function to result variable
 		
 		if(result == 0)
 		{
@@ -206,7 +206,7 @@ int addToCart(Connection* conn, struct ShoppingCart cart[])
 			std::cout << "Product Price: $" << result << std::endl;
 			getInput(quantity, "Enter the product Quantity: ");
 			cart[i].product_id = prodID;			//assign the value of prodID to the first element of the struct ShoppingCart array
-			cart[i].price = result;					//assign the price of the current product selected
+			cart[i].price = result;				//assign the price of the current product selected
 			cart[i].quantity = quantity;			//assign the quantity of products that the user wants to purchase
 			
 			
@@ -229,14 +229,14 @@ double findProduct(Connection* conn, int product_id)
 	try
 	{
 		//create the statement object stmt
-		Statement* stmt = conn->createStatement();			//create the statement object stmt
+		Statement* stmt = conn->createStatement();		//create the statement object stmt
 		
 		stmt->setSQL("BEGIN find_product(:1, :2); END;");	//call the procedure find_product
-		stmt->setInt(1, product_id);						//pass first argument to procedure
-		stmt->setDouble(2, result);							//pass second argument to procedure
-		stmt->executeUpdate();								//execute statement call
-		result = stmt->getDouble(2);						//assign the value returned by the procedure
-		conn->terminateStatement(stmt);					    //deallocate the statement object stmt
+		stmt->setInt(1, product_id);				//pass first argument to procedure
+		stmt->setDouble(2, result);				//pass second argument to procedure
+		stmt->executeUpdate();					//execute statement call
+		result = stmt->getDouble(2);				//assign the value returned by the procedure
+		conn->terminateStatement(stmt);				//deallocate the statement object stmt
 	}
 	catch (SQLException& sqlExcp)
 	{
@@ -287,7 +287,7 @@ int checkout(Connection* conn, struct ShoppingCart cart[], int customerId, int p
 					stmt->setSQL("BEGIN add_order(:1, :2); END;");
 					stmt->setInt(1, customerId);	//pass first argument to procedure
 					stmt->setInt(2, newOrderID);	//pass second argument to procedure
-					stmt->executeUpdate();			//execute statement call
+					stmt->executeUpdate();		//execute statement call
 					newOrderID = stmt->getInt(2);	//assign the value returned by the procedure
 					
 					//loop through the shopping cart array
@@ -296,11 +296,11 @@ int checkout(Connection* conn, struct ShoppingCart cart[], int customerId, int p
 						//call procedure add_order add_order_item
 						stmt->setSQL("BEGIN add_order_item(:1, :2, :3, :4, :5); END;");
 						stmt->setInt(1, newOrderID);			//pass first argument to procedure
-						stmt->setInt(2, i+1);					//pass second argument for item_id to procedure
-						stmt->setInt(3, cart[i].product_id);	//pass third argument to procedure
+						stmt->setInt(2, i+1);				//pass second argument for item_id to procedure
+						stmt->setInt(3, cart[i].product_id);		//pass third argument to procedure
 						stmt->setInt(4, cart[i].quantity);		//pass fourth argument to procedure
 						stmt->setInt(5, cart[i].price);			//pass fifth argument to procedure
-						stmt->executeUpdate();					//execute statement call
+						stmt->executeUpdate();				//execute statement call
 					}
 					conn->terminateStatement(stmt);				//deallocate statement object
 					std::cout << "The order is successfully completed." << std::endl;
